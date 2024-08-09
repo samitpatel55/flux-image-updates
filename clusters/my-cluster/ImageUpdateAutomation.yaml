@@ -1,0 +1,22 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta1
+kind: ImageUpdateAutomation
+metadata:
+  name: wordpress-automation
+  namespace: flux-system
+spec:
+  interval: 1m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  git:
+    checkout:
+      ref:
+        branch: main
+    commit:
+      author:
+        email: flux@yourdomain.com
+        name: flux
+      messageTemplate: 'Update WordPress image to {{ .ImagePolicy.latestImage }}'
+    push:
+      branch: main
+
